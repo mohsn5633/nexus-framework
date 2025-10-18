@@ -1,0 +1,18 @@
+<?php
+
+namespace {{namespace}};
+
+use Nexus\Http\Request;
+use Nexus\Http\Response;
+use Nexus\Http\Get;
+
+class {{class}}
+{
+    #[Get('{{route}}', '{{routeName}}')]
+    public function index(Request $request): Response
+    {
+        return Response::json([
+            'message' => 'Hello from {{class}}'
+        ]);
+    }
+}

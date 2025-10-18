@@ -1,0 +1,20 @@
+<?php
+
+namespace {{namespace}};
+
+use Nexus\Console\Command;
+
+class {{class}} extends Command
+{
+    protected string $signature = '{{signature}}';
+    protected string $description = '{{description}}';
+
+    public function handle(): int
+    {
+        $this->info('{{class}} executed successfully!');
+
+        // Your command logic here
+
+        return 0;
+    }
+}

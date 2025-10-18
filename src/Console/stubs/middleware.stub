@@ -1,0 +1,21 @@
+<?php
+
+namespace {{namespace}};
+
+use Nexus\Http\Middleware;
+use Nexus\Http\Request;
+use Nexus\Http\Response;
+
+class {{class}} implements Middleware
+{
+    public function handle(Request $request, \Closure $next): Response
+    {
+        // Process request before passing to next middleware/controller
+
+        $response = $next($request);
+
+        // Process response after controller/middleware
+
+        return $response;
+    }
+}

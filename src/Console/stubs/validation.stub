@@ -1,0 +1,41 @@
+<?php
+
+namespace App\Validations;
+
+use Nexus\Validation\Validator;
+
+class {{ValidationName}}
+{
+    /**
+     * Get the validation rules
+     */
+    public static function rules(): array
+    {
+        return [
+            // Define your validation rules here
+            // 'name' => 'required|string|max:255',
+            // 'email' => 'required|email|unique:users,email',
+        ];
+    }
+
+    /**
+     * Get custom validation messages
+     */
+    public static function messages(): array
+    {
+        return [
+            // Define custom error messages here
+            // 'name.required' => 'Please provide your name.',
+            // 'email.unique' => 'This email is already registered.',
+        ];
+    }
+
+    /**
+     * Validate the given data
+     */
+    public static function validate(array $data): array
+    {
+        $validator = new Validator($data, static::rules(), static::messages());
+        return $validator->validate();
+    }
+}

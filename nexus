@@ -1,0 +1,24 @@
+#!/usr/bin/env php
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Nexus Console
+|--------------------------------------------------------------------------
+|
+| This is the CLI entry point for Nexus Framework. It provides
+| an Artisan-like command interface for generating code and
+| managing your application.
+|
+*/
+
+// Bootstrap the application
+$app = require __DIR__ . '/bootstrap/app.php';
+
+// Create console kernel
+$kernel = $app->make(\Nexus\Console\Kernel::class);
+
+// Handle the command
+$status = $kernel->handle($argv);
+
+exit($status);

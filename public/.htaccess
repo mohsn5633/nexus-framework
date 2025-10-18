@@ -1,0 +1,8 @@
+# Disable OPcache in development
+php_flag opcache.enable Off
+
+# Rewrite rules for clean URLs
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]

@@ -1,0 +1,53 @@
+<?php
+
+namespace {{namespace}};
+
+use Nexus\Http\Request;
+use Nexus\Http\Response;
+use Nexus\Http\Get;
+use Nexus\Http\Post;
+use Nexus\Http\Put;
+use Nexus\Http\Delete;
+
+class {{class}}
+{
+    #[Get('{{route}}', '{{routeName}}.index')]
+    public function index(Request $request): Response
+    {
+        // List all resources
+        return Response::json([]);
+    }
+
+    #[Post('{{route}}', '{{routeName}}.store')]
+    public function store(Request $request): Response
+    {
+        // Create new resource
+        $data = $request->input();
+        return Response::json($data, 201);
+    }
+
+    #[Get('{{route}}/{id}', '{{routeName}}.show')]
+    public function show(Request $request): Response
+    {
+        // Show single resource
+        $id = $request->route('id');
+        return Response::json(['id' => $id]);
+    }
+
+    #[Put('{{route}}/{id}', '{{routeName}}.update')]
+    public function update(Request $request): Response
+    {
+        // Update resource
+        $id = $request->route('id');
+        $data = $request->input();
+        return Response::json(['id' => $id, 'data' => $data]);
+    }
+
+    #[Delete('{{route}}/{id}', '{{routeName}}.destroy')]
+    public function destroy(Request $request): Response
+    {
+        // Delete resource
+        $id = $request->route('id');
+        return Response::json(['message' => 'Deleted', 'id' => $id]);
+    }
+}

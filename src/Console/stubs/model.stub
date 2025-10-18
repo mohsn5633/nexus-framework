@@ -1,0 +1,10 @@
+<?php
+
+namespace {{namespace}};
+
+use Nexus\Database\Model;
+
+class {{class}} extends Model
+{
+    protected static ?string $table = '{{table}}';
+}

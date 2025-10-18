@@ -1,0 +1,30 @@
+<?php
+
+namespace Packages\{{name}};
+
+use Nexus\Core\Package as BasePackage;
+use Nexus\Core\Application;
+
+class Package extends BasePackage
+{
+    /**
+     * Register package services
+     */
+    public function register(Application $app): void
+    {
+        // Register services, bindings, etc.
+    }
+
+    /**
+     * Bootstrap package services
+     */
+    public function boot(Application $app): void
+    {
+        // Register routes, views, etc.
+        $router = $app->router();
+
+        $router->get('/{{slug}}', function() {
+            return 'Hello from {{name}} package!';
+        });
+    }
+}

@@ -104,21 +104,36 @@ if (!function_exists('e')) {
     }
 }
 
+if (!function_exists('session')) {
+    /**
+     * Get / put session value
+     */
+    function session(?string $key = null, mixed $default = null): mixed
+    {
+        $session = app(\Nexus\Session\SessionManager::class);
+
+        if (is_null($key)) {
+            return $session;
+        }
+
+        if (is_array($key)) {
+            foreach ($key as $k => $v) {
+                $session->put($k, $v);
+            }
+            return null;
+        }
+
+        return $session->get($key, $default);
+    }
+}
+
 if (!function_exists('csrf_token')) {
     /**
      * Get the CSRF token
      */
     function csrf_token(): string
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        if (!isset($_SESSION['_csrf_token'])) {
-            $_SESSION['_csrf_token'] = bin2hex(random_bytes(32));
-        }
-
-        return $_SESSION['_csrf_token'];
+        return session()->token();
     }
 }
 
@@ -128,11 +143,7 @@ if (!function_exists('old')) {
      */
     function old(string $key, mixed $default = null): mixed
     {
-        if (session_status() === PHP_SESSION_NONE) {
-            session_start();
-        }
-
-        return $_SESSION['_old_input'][$key] ?? $default;
+        return session()->get('_old_input.' . $key, $default);
     }
 }
 
@@ -174,5 +185,41 @@ if (!function_exists('storage')) {
     function storage(?string $disk = null): \Nexus\Storage\Storage
     {
         return \Nexus\Storage\Storage::disk($disk);
+    }
+}
+
+if (!function_exists('cache')) {
+    /**
+     * Get / set cache value
+     */
+    function cache(?string $key = null, mixed $value = null, ?int $ttl = null): mixed
+    {
+        $cache = app(\Nexus\Cache\CacheManager::class);
+
+        if (is_null($key)) {
+            return $cache;
+        }
+
+        if (!is_null($value)) {
+            return $cache->put($key, $value, $ttl);
+        }
+
+        return $cache->get($key);
+    }
+}
+
+if (!function_exists('auth')) {
+    /**
+     * Get the auth manager or guard
+     */
+    function auth(?string $guard = null): mixed
+    {
+        $auth = app(\Packages\Authentication\Services\AuthManager::class);
+
+        if ($guard) {
+            return $auth->guard($guard);
+        }
+
+        return $auth;
     }
 }

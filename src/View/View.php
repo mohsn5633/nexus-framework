@@ -39,6 +39,31 @@ class View
     {
         $app = Application::getInstance();
 
+        // Check if this is a package view (e.g., 'authentication::login')
+        if (str_contains($view, '::')) {
+            [$package, $viewPath] = explode('::', $view, 2);
+
+            // Convert dot notation to path
+            $path = str_replace('.', '/', $viewPath);
+
+            // Capitalize first letter of package name for directory
+            $packageDir = ucfirst($package);
+
+            // Check for .blade.php extension in package
+            $bladePath = $app->basePath("packages/{$packageDir}/views/{$path}.blade.php");
+            if (file_exists($bladePath)) {
+                return $bladePath;
+            }
+
+            // Check for .php extension in package
+            $phpPath = $app->basePath("packages/{$packageDir}/views/{$path}.php");
+            if (file_exists($phpPath)) {
+                return $phpPath;
+            }
+
+            return null;
+        }
+
         // Convert dot notation to path
         $path = str_replace('.', '/', $view);
 

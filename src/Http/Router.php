@@ -10,11 +10,36 @@ class Router
     protected array $routes = [];
     protected array $namedRoutes = [];
     protected array $middleware = [];
+    protected array $middlewareAliases = [];
     protected array $groupStack = [];
 
     public function __construct(
         protected Container $container
     ) {
+    }
+
+    /**
+     * Register a middleware alias
+     */
+    public function middleware(string $name, string $class): void
+    {
+        $this->middlewareAliases[$name] = $class;
+    }
+
+    /**
+     * Get middleware class by alias
+     */
+    public function getMiddleware(string $name): ?string
+    {
+        return $this->middlewareAliases[$name] ?? null;
+    }
+
+    /**
+     * Resolve middleware (supports both aliases and class names)
+     */
+    public function resolveMiddleware(string $middleware): string
+    {
+        return $this->middlewareAliases[$middleware] ?? $middleware;
     }
 
     /**
@@ -152,6 +177,10 @@ class Router
                     if ($route->name) {
                         $registrar->name($route->name);
                     }
+
+                    if (!empty($route->middleware)) {
+                        $registrar->middleware($route->middleware);
+                    }
                 }
             }
         }
@@ -218,7 +247,7 @@ class Router
         // Execute middleware pipeline
         $pipeline = array_reduce(
             array_reverse($route->getMiddleware()),
-            fn($next, $middleware) => fn($req) => $this->container->make($middleware)->handle($req, $next),
+            fn($next, $middleware) => fn($req) => $this->container->make($this->resolveMiddleware($middleware))->handle($req, $next),
             fn($req) => $this->executeAction($req, $route->getAction())
         );
 

@@ -80,11 +80,29 @@ class QueryBuilder
     }
 
     /**
+     * Add an OR WHERE NULL clause
+     */
+    public function orWhereNull(string $column): self
+    {
+        $this->wheres[] = ['type' => 'null', 'column' => $column, 'boolean' => 'OR'];
+        return $this;
+    }
+
+    /**
      * Add a WHERE NOT NULL clause
      */
     public function whereNotNull(string $column): self
     {
         $this->wheres[] = ['type' => 'not_null', 'column' => $column, 'boolean' => 'AND'];
+        return $this;
+    }
+
+    /**
+     * Add an OR WHERE NOT NULL clause
+     */
+    public function orWhereNotNull(string $column): self
+    {
+        $this->wheres[] = ['type' => 'not_null', 'column' => $column, 'boolean' => 'OR'];
         return $this;
     }
 

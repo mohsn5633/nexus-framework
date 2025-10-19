@@ -118,6 +118,28 @@ class Request
     }
 
     /**
+     * Check if input has a key
+     */
+    public function has(string $key): bool
+    {
+        return array_key_exists($key, $this->all());
+    }
+
+    /**
+     * Check if input has any of the given keys
+     */
+    public function hasAny(array $keys): bool
+    {
+        $input = $this->all();
+        foreach ($keys as $key) {
+            if (array_key_exists($key, $input)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Check if the request is JSON
      */
     public function isJson(): bool

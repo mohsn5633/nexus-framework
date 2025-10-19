@@ -289,6 +289,12 @@ class Validator
         return is_array($value);
     }
 
+    protected function validateDigits(string $field, mixed $value, array $parameters): bool
+    {
+        $length = (int) ($parameters[0] ?? 0);
+        return is_numeric($value) && strlen((string) $value) === $length;
+    }
+
     /**
      * Check if validation failed
      */

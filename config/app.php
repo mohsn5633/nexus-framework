@@ -64,5 +64,9 @@ return [
         App\Providers\AppServiceProvider::class,
         App\Providers\DatabaseServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+
+        // Session & Cache
+        Nexus\Session\SessionServiceProvider::class,
+        Nexus\Cache\CacheServiceProvider::class,
     ],
 ];

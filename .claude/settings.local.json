@@ -1,10 +1,7 @@
 {
   "permissions": {
     "allow": [
-      "Bash(php test-register.php)",
-      "Bash(php test-forgot-password.php)",
-      "Bash(php test-forgot-direct.php)",
-      "Bash(xcopy \"app\\Views\\auth\\*.blade.php\" \"packages\\Authentication\\views\"\" /Y)"
+      "Bash(vendor/bin/phpunit)"
     ],
     "deny": [],
     "ask": []

@@ -1,0 +1,40 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Explicitly mark all PHP files as PHP (not Hack)
+*.php linguist-language=PHP
+
+# Mark Blade templates as Blade
+*.blade.php linguist-language=Blade
+
+# Exclude vendor directory from language statistics
+vendor/* linguist-vendored
+
+# Exclude storage directory (generated files, cache, logs)
+storage/* linguist-generated
+
+# Exclude compiled views
+storage/framework/views/* linguist-generated
+
+# Exclude node_modules if present
+node_modules/* linguist-vendored
+
+# Exclude documentation from stats (optional)
+# docs/* linguist-documentation
+
+# Exclude test files from stats (optional)
+# tests/* linguist-detectable=false
+
+# Binary files
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.svg binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.eot binary
+*.otf binary
+*.pdf binary

@@ -20,6 +20,7 @@ class Kernel
     protected function registerDefaultCommands(): void
     {
         $this->commands = [
+            // Make Commands
             'make:controller' => Commands\MakeControllerCommand::class,
             'make:model' => Commands\MakeModelCommand::class,
             'make:middleware' => Commands\MakeMiddlewareCommand::class,
@@ -28,13 +29,50 @@ class Kernel
             'make:command' => Commands\MakeCommandCommand::class,
             'make:provider' => Commands\MakeProviderCommand::class,
             'make:validation' => Commands\MakeValidationCommand::class,
+            'make:mail' => Commands\MakeMailCommand::class,
+            'make:migration' => Commands\MakeMigrationCommand::class,
+            'make:seeder' => Commands\MakeSeederCommand::class,
+            'make:job' => Commands\MakeJobCommand::class,
+
+            // Migration Commands
+            'migrate' => Commands\MigrateCommand::class,
+            'migrate:rollback' => Commands\MigrateRollbackCommand::class,
+            'migrate:status' => Commands\MigrateStatusCommand::class,
+            'migrate:reset' => Commands\MigrateResetCommand::class,
+
+            // Database Commands
+            'db:seed' => Commands\DbSeedCommand::class,
+
+            // Queue Commands
+            'queue:work' => Commands\QueueWorkCommand::class,
+            'queue:table' => Commands\QueueTableCommand::class,
+
+            // Schedule Commands
+            'schedule:run' => Commands\ScheduleRunCommand::class,
+            'schedule:list' => Commands\ScheduleListCommand::class,
+
+            // Route Commands
             'routes:list' => Commands\RoutesListCommand::class,
+
+            // View Commands
             'view:clear' => Commands\ViewClearCommand::class,
+
+            // Storage Commands
             'storage:link' => Commands\StorageLinkCommand::class,
+
+            // WebSocket Commands
+            'websocket:serve' => Commands\WebSocketServerCommand::class,
+
+            // Worker Commands
+            'worker:run' => Commands\WorkerRunCommand::class,
+
+            // Server Commands
             'serve' => Commands\ServeCommand::class,
-            'list' => Commands\ListCommand::class,
             'down' => Commands\DownCommand::class,
             'up' => Commands\UpCommand::class,
+
+            // Utility Commands
+            'list' => Commands\ListCommand::class,
         ];
     }
 

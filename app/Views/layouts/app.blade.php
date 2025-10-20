@@ -62,7 +62,7 @@
                     <a href="/" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">Home</a>
                     <a href="#features" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">Features</a>
                     <a href="#documentation" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">Docs</a>
-                    <a href="https://github.com/nexus-framework/nexus" target="_blank" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">GitHub</a>
+                    <a href="https://github.com/mohsn5633/nexus-framework" target="_blank" class="text-gray-700 hover:text-primary-600 font-medium transition-colors">GitHub</a>
                 </div>
             </div>
         </div>

@@ -192,6 +192,37 @@ class QueryBuilder
     }
 
     /**
+     * Paginate the results
+     *
+     * @param int $perPage Items per page
+     * @param int|null $page Current page number (null = auto-detect from request)
+     * @param array $options Additional options
+     * @return \Nexus\Support\Paginator
+     */
+    public function paginate(int $perPage = 15, ?int $page = null, array $options = []): \Nexus\Support\Paginator
+    {
+        // Get current page from request if not provided
+        if ($page === null) {
+            $page = (int) ($_GET['page'] ?? 1);
+        }
+
+        // Ensure page is at least 1
+        $page = max(1, $page);
+
+        // Get total count
+        $total = $this->count();
+
+        // Calculate offset
+        $offset = ($page - 1) * $perPage;
+
+        // Get items for current page
+        $items = $this->limit($perPage)->offset($offset)->get();
+
+        // Create and return paginator
+        return new \Nexus\Support\Paginator($items, $total, $perPage, $page, $options);
+    }
+
+    /**
      * Insert a record
      */
     public function insert(array $data): int

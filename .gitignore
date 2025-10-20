@@ -1,4 +1,5 @@
 /vendor/
+/tests/
 /node_modules/
 /storage/logs/*
 /storage/cache/*
@@ -10,3 +11,5 @@ composer.lock
 .DS_Store
 Thumbs.db
 *.log
+/.claude
+.env.testing

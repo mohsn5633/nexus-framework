@@ -20,7 +20,7 @@ Optional:
 
 ```bash
 # Clone the repository
-git clone https://github.com/nexus-framework/nexus.git my-project
+git clone https://github.com/mohsn5633/nexus-framework.git my-project
 cd my-project
 
 # Install dependencies
@@ -62,7 +62,7 @@ php nexus serve
 
 ```bash
 # Clone repository
-git clone https://github.com/nexus-framework/nexus.git my-project
+git clone https://github.com/mohsn5633/nexus-framework.git my-project
 cd my-project
 
 # Copy environment file

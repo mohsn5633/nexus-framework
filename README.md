@@ -9,12 +9,18 @@ A smart, lightweight PHP framework that's easier to use than Laravel while maint
 - **Automatic DI** - Powerful dependency injection container with auto-resolution
 - **Query Builder** - Elegant, intuitive database query builder with PDO
 - **Simple Models** - Active Record pattern for database interactions
+- **HTTP Client** - Powerful CURL-based HTTP client with retry, middleware, and async support
+- **Socket Server** - TCP/UDP/SSL/TLS socket server and WebSocket (RFC 6455) implementation
+- **Process Management** - Multi-process and worker pool for parallel task execution
+- **Queue System** - Background job processing with multiple queue drivers
+- **Task Scheduler** - Cron-like task scheduling system
 - **Configuration** - Dot notation config with environment variable support
 - **Middleware** - Clean middleware pipeline for request/response handling
 - **Packages** - Extensible plugin system for modular development
 - **Docker Ready** - Complete Docker setup with MySQL and phpMyAdmin
 - **Composer Support** - PSR-4 autoloading and package management
 - **CLI Tool** - Artisan-like command interface for code generation
+- **Testing** - PHPUnit integration with 79 comprehensive tests
 
 ## CLI Commands
 
@@ -332,7 +338,134 @@ $html = view('welcome', ['title' => 'Home']);
 // Debugging
 dd($variable); // Dump and die
 dump($variable); // Dump
+
+// HTTP Client
+$client = http();
+$response = $client->get('https://api.example.com/users');
+
+// Sockets
+$socket = socket('tcp');
+$socket->connect('example.com', 80);
+
+// Process
+$process = process('php script.php');
+$process->run();
+
+// Worker Pool
+$pool = worker_pool(4);
+$pool->add(fn() => heavyTask());
 ```
+
+## HTTP Client
+
+Make HTTP requests with retry logic, middleware, and async support:
+
+```php
+use Nexus\Http\Client\HttpClient;
+
+$client = http();
+
+// Simple GET request
+$response = $client->get('https://api.example.com/users');
+$data = $response->json();
+
+// POST with data
+$response = $client->post('https://api.example.com/users', [
+    'name' => 'John Doe',
+    'email' => 'john@example.com'
+]);
+
+// With headers and authentication
+$client->withHeaders(['X-API-Key' => 'secret'])
+       ->withBasicAuth('username', 'password')
+       ->get('https://api.example.com/protected');
+
+// Async requests
+$client->async()
+       ->get('https://api.example.com/endpoint1')
+       ->then(function($response) {
+           echo "Response: " . $response->body();
+       });
+
+// Retry on failure
+$client->retry(3, 1000) // 3 retries, 1 second delay
+       ->get('https://unreliable-api.com/data');
+```
+
+See [docs/http-client.md](docs/http-client.md) for complete documentation.
+
+## Socket Server
+
+Build real-time applications with TCP/UDP sockets and WebSocket:
+
+```php
+use Nexus\Socket\SocketServer;
+use Nexus\Socket\WebSocket;
+
+// TCP Socket Server
+$server = SocketServer::tcp('0.0.0.0', 8080);
+$server->on('connect', function($client) {
+    echo "Client connected!\n";
+});
+
+$server->on('data', function($client, $data) {
+    echo "Received: {$data}\n";
+    $server->send($client, "Echo: {$data}");
+});
+
+$server->start();
+
+// WebSocket Server (RFC 6455)
+$ws = new WebSocket('0.0.0.0', 8080);
+
+$ws->on('connect', function($client) {
+    echo "WebSocket client connected\n";
+});
+
+$ws->on('message', function($client, $message) use ($ws) {
+    // Broadcast to all clients
+    $ws->broadcast("User said: {$message}");
+});
+
+$ws->start();
+```
+
+See [docs/sockets.md](docs/sockets.md) for complete documentation.
+
+## Process Management
+
+Execute parallel tasks with worker pools:
+
+```php
+use Nexus\Process\Process;
+use Nexus\Process\ProcessPool;
+
+// Single process
+$process = new Process('php artisan queue:work');
+$process->setTimeout(3600);
+$process->run();
+
+echo $process->getOutput();
+
+// Worker pool for parallel execution
+$pool = new ProcessPool(4); // 4 workers
+
+$tasks = [];
+for ($i = 1; $i <= 100; $i++) {
+    $tasks[] = function() use ($i) {
+        return processData($i);
+    };
+}
+
+$pool->map($tasks, function($result) {
+    echo "Task completed: {$result}\n";
+});
+
+// Wait for all tasks
+$pool->wait();
+```
+
+See [docs/process.md](docs/process.md) for complete documentation.
 
 ## Packages
 
@@ -399,8 +532,25 @@ docker-compose exec app php artisan custom:command
 
 - PHP 8.1 or higher
 - Composer
-- PDO extension
+- PDO extension (for database features)
+- OpenSSL extension (for encryption and SSL/TLS sockets)
+- CURL extension (for HTTP client)
+- Mbstring extension
 - MySQL/PostgreSQL/SQLite (for database features)
+
+## Documentation
+
+For comprehensive documentation, examples, and guides, visit the [documentation folder](docs/README.md):
+
+- [HTTP Client](docs/http-client.md) - Make HTTP requests with retry and async support
+- [Socket Server](docs/sockets.md) - Build real-time applications with TCP/UDP/WebSocket
+- [Process Management](docs/process.md) - Execute parallel tasks with worker pools
+- [Queue System](docs/queues.md) - Background job processing
+- [Task Scheduler](docs/scheduler.md) - Cron-like task scheduling
+- [Database](docs/database.md) - Database connections and queries
+- [Routing](docs/routing.md) - Define application routes
+- [Validation](docs/validation.md) - Validate user input
+- And much more...
 
 ## Why Nexus?
 

@@ -223,3 +223,185 @@ if (!function_exists('auth')) {
         return $auth;
     }
 }
+
+if (!function_exists('rate_limiter')) {
+    /**
+     * Get the rate limiter instance
+     */
+    function rate_limiter(): \Nexus\Support\RateLimiter
+    {
+        return app(\Nexus\Support\RateLimiter::class);
+    }
+}
+
+if (!function_exists('encrypt')) {
+    /**
+     * Encrypt a value
+     */
+    function encrypt(mixed $value, bool $serialize = true): string
+    {
+        return app(\Nexus\Security\Encrypter::class)->encrypt($value, $serialize);
+    }
+}
+
+if (!function_exists('decrypt')) {
+    /**
+     * Decrypt a value
+     */
+    function decrypt(string $payload, bool $unserialize = true): mixed
+    {
+        return app(\Nexus\Security\Encrypter::class)->decrypt($payload, $unserialize);
+    }
+}
+
+if (!function_exists('bcrypt')) {
+    /**
+     * Hash a value using bcrypt
+     */
+    function bcrypt(string $value, array $options = []): string
+    {
+        return \Nexus\Security\Encrypter::hash($value, $options);
+    }
+}
+
+if (!function_exists('now')) {
+    /**
+     * Create a new Date instance for the current date and time
+     */
+    function now(\DateTimeZone|string|null $timezone = null): \Nexus\Support\Date
+    {
+        return \Nexus\Support\Date::now($timezone);
+    }
+}
+
+if (!function_exists('today')) {
+    /**
+     * Create a new Date instance for today
+     */
+    function today(\DateTimeZone|string|null $timezone = null): \Nexus\Support\Date
+    {
+        return \Nexus\Support\Date::today($timezone);
+    }
+}
+
+if (!function_exists('carbon')) {
+    /**
+     * Parse a string into a Date instance (alias for Date::parse)
+     */
+    function carbon(string $time, \DateTimeZone|string|null $timezone = null): \Nexus\Support\Date
+    {
+        return \Nexus\Support\Date::parse($time, $timezone);
+    }
+}
+
+if (!function_exists('dispatch')) {
+    /**
+     * Dispatch a job to the queue
+     */
+    function dispatch(string $job, array $data = [], ?string $queue = null): mixed
+    {
+        return app(\Nexus\Queue\QueueManager::class)->push($job, $data, $queue);
+    }
+}
+
+if (!function_exists('dispatch_after')) {
+    /**
+     * Dispatch a job to the queue after a delay
+     */
+    function dispatch_after(int $delay, string $job, array $data = [], ?string $queue = null): mixed
+    {
+        return app(\Nexus\Queue\QueueManager::class)->later($delay, $job, $data, $queue);
+    }
+}
+
+if (!function_exists('queue')) {
+    /**
+     * Get the queue manager instance
+     */
+    function queue(?string $connection = null): \Nexus\Queue\QueueManager|\Nexus\Queue\QueueInterface
+    {
+        $manager = app(\Nexus\Queue\QueueManager::class);
+
+        if ($connection) {
+            return $manager->connection($connection);
+        }
+
+        return $manager;
+    }
+}
+
+if (!function_exists('mail')) {
+    /**
+     * Get the mail manager instance or send a mailable
+     */
+    function mail(\Nexus\Mail\Mailable|null $mailable = null): \Nexus\Mail\MailManager|bool
+    {
+        $manager = app(\Nexus\Mail\MailManager::class);
+
+        if ($mailable) {
+            return $manager->send($mailable);
+        }
+
+        return $manager;
+    }
+}
+
+if (!function_exists('http')) {
+    /**
+     * Create a new HTTP client instance
+     */
+    function http(array $config = []): \Nexus\Http\Client\HttpClient
+    {
+        return new \Nexus\Http\Client\HttpClient($config);
+    }
+}
+
+if (!function_exists('socket')) {
+    /**
+     * Create a new socket instance
+     */
+    function socket(string $type = \Nexus\Socket\Socket::TYPE_TCP, array $options = []): \Nexus\Socket\Socket
+    {
+        return new \Nexus\Socket\Socket($type, $options);
+    }
+}
+
+if (!function_exists('websocket')) {
+    /**
+     * Create a new WebSocket server
+     */
+    function websocket(string $host = '0.0.0.0', int $port = 8080): \Nexus\Socket\WebSocket
+    {
+        return new \Nexus\Socket\WebSocket($host, $port);
+    }
+}
+
+if (!function_exists('process')) {
+    /**
+     * Create a new process
+     */
+    function process(?string $command = null, ?string $cwd = null, array $env = []): \Nexus\Process\Process
+    {
+        return new \Nexus\Process\Process($command, $cwd, $env);
+    }
+}
+
+if (!function_exists('parallel')) {
+    /**
+     * Execute tasks in parallel
+     */
+    function parallel(array $tasks): array
+    {
+        return \Nexus\Process\ProcessPool::parallel($tasks);
+    }
+}
+
+if (!function_exists('worker_pool')) {
+    /**
+     * Create a new process pool
+     */
+    function worker_pool(int $maxWorkers = 4, int $timeout = 300): \Nexus\Process\ProcessPool
+    {
+        return new \Nexus\Process\ProcessPool($maxWorkers, $timeout);
+    }
+}

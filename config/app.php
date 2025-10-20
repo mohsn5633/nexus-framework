@@ -35,6 +35,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Application Protocol
+    |--------------------------------------------------------------------------
+    |
+    | This value determines which protocol your application should use.
+    |
+    | Supported: "auto", "http", "https"
+    | - auto: No enforcement, use whatever protocol the request comes with
+    | - http: Force HTTP (useful for local development)
+    | - https: Force HTTPS (recommended for production)
+    |
+    */
+
+    'protocol' => env('APP_PROTOCOL', 'auto'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Application Timezone
     |--------------------------------------------------------------------------
     */
